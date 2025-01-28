@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I admired</title>
+  <style>
+    body{
+        background-color: bisque;
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB4_zah2ciL2-qyiS71T0h2wUJhFhTTuI9nw&s");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: top right;
+    }
+/* styles.css */
+
+ 
+  header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    margin: 0;
+    font-size: 2.5em;
+  }
+  
+  h2 {
+    font-size: 1.8em;
+    color: #4CAF50;
+  }
+  
+  .intro, .qualities, .image-gallery {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .intro p {
+    font-size: 1.2em;
+    line-height: 1.6;
+  }
+  
+  ul {
+    list-style-type: square;
+    margin-left: 20px;
+  }
+  
+  li {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+  
+  .image-gallery img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    display
+  
+  </style>
+ <script>
+// script.js
+
+// Get references to the display and all buttons
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('.btn');
+
+// Variables to hold the first number, operator, and second number for calculation
+let firstOperand = '';
+let operator = '';
+let secondOperand = '';
+let isSecondOperand = false;
+
+// Function to handle button click
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const value = button.innerText;
+
+        // Handle number input
+        if (value >= '0' && value <= '9') {
+            if (isSecondOperand) {
+                secondOperand += value;
+                display.value = secondOperand;
+            } else {
+                firstOperand += value;
+                display.value = firstOperand;
+            }
+        }
+        
+        // Handle operators
+        if (['+', '-', '*', '/'].includes(value)) {
+            if (firstOperand !== '') {
+                operator = value;
+                isSecondOperand = true;
+            }
+        }
+        
+        // Handle clear button
+        if (value === 'C') {
+            firstOperand = '';
+            secondOperand = '';
+            operator = '';
+            isSecondOperand = false;
+            display.value = '';
+        }
+
+        // Handle equals button
+        if (value === '=') {
+            if (firstOperand && operator && secondOperand !== '') {
+                const result = calculate(firstOperand, operator, secondOperand);
+                display.value = result;
+                firstOperand = result;
+                secondOperand = '';
+                operator = '';
+                isSecondOperand = false;
+            }
+        }
+    });
+});
+
+// Function to perform calculation
+function calculate(firstOperand, operator, secondOperand) {
+    firstOperand = parseFloat(firstOperand);
+    secondOperand = parseFloat(secondOperand);
+
+    if (operator === '+') {
+        return firstOperand + secondOperand;
+    } else if (operator === '-') {
+        return firstOperand - secondOperand;
+    } else if (operator === '*') {
+        return firstOperand * secondOperand;
+    } else if (operator === '/') {
+        if (secondOperand === 0) {
+            return 'Error'; // Prevent division by zero
+        }
+        return firstOperand / secondOperand;
+    }
+}
+
+</script>
+</head>
+<body>
+  <header>
+    <h1>Person I Admire: Albert Einstein</h1>
+  </header>
+
+  <section class="intro">
+    <h2 style="color:red; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Why I Admire Albert Einstein</h2>
+    <p style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-size: 20px;">Albert Einstein was a brilliant physicist who revolutionized the way we understand the universe. His contributions to science have had an enduring impact on technology, philosophy, and even art. Here's why I admire him:</p>
+  </section>
+
+  <section class="qualities">
+    <h2 style="color:red; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Admirable Qualities</h2>
+    <ul style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-size: 20px;">
+      <li><b>Curiosity:</b> Einstein was always eager to learn more about the world.</li>
+      <li><b>Creativity:</b> His innovative thinking led to the development of the theory of relativity.</li>
+      <li> <b>Despite challenges:</b> He remained committed to scientific inquiry.</li>
+      <li><b>Humility:</b> Despite his fame, he stayed humble and focused on knowledge.</li>
+    </ul>
+  </section>
+
+  <section class="image-gallery">
+    <h2 style="color:red; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Images of Albert Einstein</h2>
+    <img src="einstein.jpg" alt="Albert Einstein" class="image">
+  </section>
