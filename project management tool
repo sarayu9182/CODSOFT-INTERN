@@ -1,0 +1,170 @@
+mkdir backend
+cd backend
+npm init -y
+npm install express mongoose body-parser cors dotenv
+// server.js
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/projectManagement', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
+
+// Routes
+const projectRoutes = require('./routes/projectRoutes');
+app.use('/api/projects', projectRoutes);
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+    console.log(Server running on port ${port});
+});
+// models/Project.js
+const mongoose = require('mongoose');
+
+const ProjectSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    tasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Task'
+    }]
+});
+
+module.exports = mongoose.model('Project', ProjectSchema);
+// routes/projectRoutes.js
+const express = require('express');
+const Project = require('../models/Project');
+const Task = require('../models/Task');
+const router = express.Router();
+
+// Create a new project
+router.post('/', async (req, res) => {
+    try {
+        const { name, description } = req.body;
+        const newProject = new Project({ name, description });
+        await newProject.save();
+        res.status(201).json(newProject);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// Add a task to a project
+router.post('/:projectId/tasks', async (req, res) => {
+    try {
+        const { title, description, assignedTo, deadline } = req.body;
+        const newTask = new Task({ title, description, assignedTo, deadline });
+        await newTask.save();
+
+        const project = await Project.findById(req.params.projectId);
+        project.tasks.push(newTask);
+        await project.save();
+
+        res.status(201).json(newTask);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// Get all projects with tasks
+router.get('/', async (req, res) => {
+    try {
+        const projects = await Project.find().populate('tasks');
+        res.status(200).json(projects);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+module.exports = router;
+npx create-react-app frontend
+cd frontend
+npm install axios react-router-dom
+// src/components/ProjectList.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+const ProjectList = () => {
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/projects')
+            .then(res => {
+                setProjects(res.data);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    return (
+        <div>
+            <h1>Projects</h1>
+            <Link to="/projects/new">Create New Project</Link>
+            <ul>
+                {projects.map(project => (
+                    <li key={project._id}>
+                        <Link to={/projects/${project._id}}>{project.name}</Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+export default ProjectList;
+// src/components/ProjectForm.js
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+
+const ProjectForm = () => {
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const history = useHistory();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newProject = { name, description };
+        await axios.post('http://localhost:5000/api/projects', newProject);
+        history.push('/');
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <label>Project Name</label>
+            <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+            />
+            <label>Description</label>
+            <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+            />
+            <button type="submit">Create Project</button>
+        </form>
+    );
+};
+
+export default ProjectForm;
+cd backend
+node server.js
+cd frontend
+npm start
