@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body{
+            background-color: lightgreen;
+        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header p {
+    margin: 0;
+    font-style: italic;
+}
+
+section {
+    padding: 20px;
+    text-align: center;
+}
+
+#about img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 10px 0;
+}
+
+#skills ul {
+    list-style: none;
+    padding: 0;
+}
+
+#skills ul li {
+    display: inline-block;
+    margin: 10px;
+    background-color: #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.project {
+    margin-bottom: 20px;
+}
+
+.project img {
+    max-width: 100%;
+    height: auto;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+    </style>
+<script>
+// script.js
+
+let display = document.getElementById('display');
+
+// Function to append numbers and operators to the display
+function appendToDisplay(value) {
+  display.value += value;
+}
+
+// Function to clear the display
+function clearDisplay() {
+  display.value = '';
+}
+
+// Function to evaluate the expression in the display
+function calculate() {
+  try {
+    display.value = eval(display.value);
+  } catch (e) {
+    display.value = 'Error';
+  }
+}
+
+</script>
+</head>
+<body>
+    <header>
+        <h1>My Name</h1>
+        <p>Web Developer | Designer | Programmer</p>
+    </header>
+    
+    <section id="about">
+        <h2>About Me</h2>
+        <img src="path_to_your_image.jpg" alt="My Photo">
+        <p>Hello! I'm a passionate web developer with experience in creating dynamic and responsive websites...</p>
+    </section>
+    
+    <section id="skills">
+        <h2>My Skills</h2>
+        <ul>
+            <li>HTML & CSS</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Node.js</li>
+            <li>Python</li>
+        </ul>
+    </section>
+    
+    <section id="projects">
+        <h2>My Projects</h2>
+        <div class="project">
+            <h3>Project Title 1</h3>
+            <img src="path_to_project_image1.jpg" alt="Project Image 1">
+            <p>A brief description of what this project entails...</p>
+        </div>
+        <div class="project">
+            <h3>Project Title 2</h3>
+            <img src="path_to_project_image2.jpg" alt="Project Image 2">
+            <p>A brief description of what this project entails...</p>
+        </div>
+    </section>
+    
+    <section id="resume">
+        <h2>Resume</h2>
+        <p><a href="path_to_your_resume.pdf" download>Download My Resume</a></p>
+    </section>
+    
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>Email: myemail@example.com</p>
+        <p>Phone: +1234567890</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 My Portfolio. All rights reserved.</p>
+    </footer>
+</body>
+</html>
